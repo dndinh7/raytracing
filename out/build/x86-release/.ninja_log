@@ -1,0 +1,4 @@
+# ninja log v5
+3	602	7287730577791649	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	da96c79cf11fc9e8
+602	718	7287730578878567	raytracing/raytracing.exe	6b60303eddbd19af
+22	605	7284682274948337	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	a508bc2b9659e12e

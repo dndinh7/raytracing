@@ -16,6 +16,6 @@
     "\\out",
     "\\raytracing"
   ],
-  "SelectedNode": "\\raytracing\\ray.h",
+  "SelectedNode": "\\raytracing\\raytracing.cpp",
   "PreviewInSolutionExplorer": false
 }

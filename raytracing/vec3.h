@@ -11,6 +11,7 @@ class vec3 {
 		double z;
 
 		vec3();
+		vec3(double t);
 		vec3(double x, double y, double z);
 
 		vec3 operator-() const;
@@ -21,6 +22,8 @@ class vec3 {
 
 		// for division do * 1/t
 		vec3 operator*(double t) const;
+
+		vec3 operator/(double t) const;
 
 		vec3& operator+=(const vec3& v);
 

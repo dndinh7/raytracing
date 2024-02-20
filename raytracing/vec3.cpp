@@ -83,7 +83,7 @@ vec3 vec3::cross(const vec3& v) {
 }
 
 vec3 vec3::normalize() {
-	return *this * (1 / length());
+	return *this * (1.0 / length());
 }
 
 double vec3::distance_squared(const vec3& a, const vec3& b) {

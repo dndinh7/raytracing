@@ -9,13 +9,15 @@
 #include <iostream>
 
 color ray_color(const ray& r) {
-    return color(0, 0, 0);
+    vec3 unit_dir = r.direction().normalize();
+    double alpha = 0.5 * (unit_dir.y + 1.0);
+    return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
 }
 
 int main() {
     // Image
 
-    float aspect_ratio = 16.0 / 9.0;
+    double aspect_ratio = 16.0 / 9.0;
     int image_width = 400;
 
     int image_height = static_cast<int>(image_width / aspect_ratio);

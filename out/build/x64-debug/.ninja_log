@@ -1,7 +1,9 @@
 # ninja log v5
-10	589	7282934527064766	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	4bf337c3ad7d59b5
-590	688	7282934527815707	raytracing/raytracing.exe	5d4ac17ea8b14537
-11	954	7294118603716204	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	97ef64303dcce26a
-14	955	7294118603716204	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	a0de9e5f3cab42fc
 7	956	7294118603736153	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	4bf337c3ad7d59b5
 956	1143	7294118605152372	raytracing/raytracing.exe	3bc7fbfd600059b1
+11	954	7294118603716204	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	97ef64303dcce26a
+14	955	7294118603716204	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	a0de9e5f3cab42fc
+9	916	7301068378907497	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	97ef64303dcce26a
+11	917	7301068378907497	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	a0de9e5f3cab42fc
+5	918	7301068378917473	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	4bf337c3ad7d59b5
+918	1072	7301068380124246	raytracing/raytracing.exe	3bc7fbfd600059b1

@@ -13,9 +13,13 @@
   },
   "ExpandedNodes": [
     "",
-    "\\out",
+    "\\external",
+    "\\external\\SDL2",
+    "\\external\\SDL2\\include",
+    "\\external\\SDL2\\lib",
+    "\\external\\SDL2\\lib\\x64",
+    "\\external\\SDL2\\lib\\x86",
     "\\raytracing"
   ],
-  "SelectedNode": "\\out\\image3.ppm",
   "PreviewInSolutionExplorer": false
 }

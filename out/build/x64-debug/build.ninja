@@ -78,21 +78,24 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 build cmake_object_order_depends_target_raytracing: phony || raytracing\CMakeFiles\raytracing.dir
 
 build raytracing\CMakeFiles\raytracing.dir\raytracing.cpp.obj: CXX_COMPILER__raytracing_unscanned_Debug C$:\Users\David\Documents\projects\raytracing\raytracing\raytracing.cpp || cmake_object_order_depends_target_raytracing
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -ZI
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20
+  INCLUDES = -IC:\Users\David\Documents\projects\raytracing\external\SDL2\include
   OBJECT_DIR = raytracing\CMakeFiles\raytracing.dir
   OBJECT_FILE_DIR = raytracing\CMakeFiles\raytracing.dir
   TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
   TARGET_PDB = raytracing\raytracing.pdb
 
 build raytracing\CMakeFiles\raytracing.dir\vec3.cpp.obj: CXX_COMPILER__raytracing_unscanned_Debug C$:\Users\David\Documents\projects\raytracing\raytracing\vec3.cpp || cmake_object_order_depends_target_raytracing
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -ZI
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20
+  INCLUDES = -IC:\Users\David\Documents\projects\raytracing\external\SDL2\include
   OBJECT_DIR = raytracing\CMakeFiles\raytracing.dir
   OBJECT_FILE_DIR = raytracing\CMakeFiles\raytracing.dir
   TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
   TARGET_PDB = raytracing\raytracing.pdb
 
 build raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj: CXX_COMPILER__raytracing_unscanned_Debug C$:\Users\David\Documents\projects\raytracing\raytracing\ray.cpp || cmake_object_order_depends_target_raytracing
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -ZI
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20
+  INCLUDES = -IC:\Users\David\Documents\projects\raytracing\external\SDL2\include
   OBJECT_DIR = raytracing\CMakeFiles\raytracing.dir
   OBJECT_FILE_DIR = raytracing\CMakeFiles\raytracing.dir
   TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
@@ -106,12 +109,13 @@ build raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj: CXX_COMPILER__raytracing
 #############################################
 # Link the executable raytracing\raytracing.exe
 
-build raytracing\raytracing.exe: CXX_EXECUTABLE_LINKER__raytracing_Debug raytracing\CMakeFiles\raytracing.dir\raytracing.cpp.obj raytracing\CMakeFiles\raytracing.dir\vec3.cpp.obj raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI
+build raytracing\raytracing.exe: CXX_EXECUTABLE_LINKER__raytracing_Debug raytracing\CMakeFiles\raytracing.dir\raytracing.cpp.obj raytracing\CMakeFiles\raytracing.dir\vec3.cpp.obj raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj | C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = C:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib  C:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_PATH = -LIBPATH:C:\Users\David\Documents\projects\raytracing\raytracing\$$(SDL2_LIBRARY)
   OBJECT_DIR = raytracing\CMakeFiles\raytracing.dir
-  POST_BUILD = cd .
+  POST_BUILD = cmd.exe /C "cd /D C:\Users\David\Documents\projects\raytracing\out\build\x64-debug\raytracing && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different C:/Users/David/Documents/projects/raytracing/external/SDL2/lib/x64/SDL2.dll C:/Users/David/Documents/projects/raytracing/out/build/x64-debug/raytracing"
   PRE_LINK = cd .
   TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
   TARGET_FILE = raytracing\raytracing.exe

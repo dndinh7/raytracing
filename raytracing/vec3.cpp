@@ -72,14 +72,14 @@ double vec3::length() {
 	return sqrt(this->length_squared());
 }
 
-vec3 vec3::dot(const vec3& v) {
-	return vec3(x * v.x, y * v.y, z * v.z);
+double vec3::dot(const vec3& a, const vec3& b) {
+	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-vec3 vec3::cross(const vec3& v) {
-	return vec3(y * v.z - z * v.y,
-				z * v.x - x * v.z,
-				x * v.y - y * v.x);
+vec3 vec3::cross(const vec3& a, const vec3& b) {
+	return vec3(a.y * b.z - a.z * b.y,
+				a.z * b.x - a.x * b.z,
+				a.x * b.y - a.y * b.x);
 }
 
 vec3 vec3::normalize() {

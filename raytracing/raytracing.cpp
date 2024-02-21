@@ -7,10 +7,34 @@
 #include "ray.h"
 
 #include <iostream>
+#include <SDL.h>
+#undef main
+
+bool hit_sphere(const point3& center, double radius, const ray& r) {
+    // equation is (P - C) dot (P - C) = radius * radius to get sphere
+    // P = A + tb, it is a ray that will be equivalent to P at some t
+    // giving equation t^2*b dot b + 2 * t * b dot (A - C) + (A - C) dot (A - C) - r^2 = 0
+    // then we solve for t and if a root exists, we have hit the sphere (quadratic formula)
+    // Givens: b is the ray dir, A is the ray origin, C is the center of sphere
+
+    vec3 AC = r.origin() - center;
+
+    double a = vec3::dot(r.direction(), r.direction());
+    double b = 2.0 * vec3::dot(r.direction(), AC);
+    double c = vec3::dot(AC, AC) - radius * radius;
+
+    double discriminant = b * b - 4 * a * c;
+    return discriminant >= 0;
+}
 
 color ray_color(const ray& r) {
+    // if the ray hits the sphere, then we color it red :)
+    if (hit_sphere(vec3(0, 0, -1), 0.5, r)) return color(1, 0, 0);
+
+    // color is dependent on y value of ray, we normalize it to [0, 1]
     vec3 unit_dir = r.direction().normalize();
     double alpha = 0.5 * (unit_dir.y + 1.0);
+
     return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
 }
 
@@ -63,4 +87,6 @@ int main() {
     }
 
     std::clog << "\rDone.                          \n";
+
+    return 0;
 }

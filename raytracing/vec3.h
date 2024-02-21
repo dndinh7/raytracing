@@ -37,10 +37,6 @@ class vec3 {
 
 		vec3& operator/=(double t);
 
-		vec3 dot(const vec3& v);
-
-		vec3 cross(const vec3& v);
-
 		double length();
 
 		double length_squared();
@@ -52,6 +48,11 @@ class vec3 {
 		static double distance(const vec3& a, const vec3& b);
 
 		static vec3 lerp(const vec3& a, const vec3& b, double t);
+
+		static double dot(const vec3& a, const vec3& b);
+
+		static vec3 cross(const vec3& a, const vec3& b);
+
 
 };
 

@@ -14,6 +14,8 @@ class ray {
 		point3 origin() const { return orig; }
 		vec3 direction() const { return dir; }
 
+		static bool hit_sphere(const point3& center, double radius, const ray& r);
+
 	private:
 		point3 orig;
 		vec3 dir;

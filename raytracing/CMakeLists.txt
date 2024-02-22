@@ -10,16 +10,17 @@ else() # 32 bits
     set(SDL2_LIBRARY "${SDL2_PATH}/lib/x86")
 endif()
 
+
 # SDL2 header
 include_directories("${SDL2_PATH}/include")
 
 # Link library
-link_directories($(SDL2_LIBRARY))
+link_directories(${SDL2_LIBRARY})
 
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} "raytracing.cpp" "raytracing.h" "vec3.h" "vec3.cpp" "color.h" "ray.h" "ray.cpp")
-target_link_libraries(${PROJECT_NAME} "${SDL2_LIBRARY}/SDL2main.lib" "${SDL2_LIBRARY}/SDL2main.lib")
+add_executable (${PROJECT_NAME} "raytracing.cpp" "raytracing.h" "vec3.h" "vec3.cpp" "color.h" "ray.h" "ray.cpp" "Window.h" "Window.cpp")
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}/SDL2main.lib ${SDL2_LIBRARY}/SDL2.lib)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET raytracing PROPERTY CXX_STANDARD 20)

@@ -1,12 +1,12 @@
 # ninja log v5
-1	673	7302010404167267	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
-6	118	7302001753455537	raytracing/raytracing.exe	bfbea4517729cdfd
-9	580	7302008889132845	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	62014f3417bf9d2a
-12	583	7302008889162772	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	386514270a287ef9
-1	114	7302011474321779	build.ninja	fbd48425c49c9762
-2	7	0	clean	8c45b54705a541e8
-11	571	7302017028670329	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	386514270a287ef9
+2	659	7302746537413330	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
+659	774	7302746538061259	raytracing/raytracing.exe	6a80f7126ba4e43f
 8	572	7302017028670329	raytracing/CMakeFiles/raytracing.dir/vec3.cpp.obj	62014f3417bf9d2a
-5	663	7302017029580599	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
-9	664	7302017418874377	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
-664	821	7302017419612144	raytracing/raytracing.exe	bfbea4517729cdfd
+11	571	7302017028670329	raytracing/CMakeFiles/raytracing.dir/ray.cpp.obj	386514270a287ef9
+2	7	0	clean	8c45b54705a541e8
+1	114	7302771058246483	build.ninja	fbd48425c49c9762
+9	36	7302771627759046	raytracing/CMakeFiles/raytracing.dir/Window.cpp.obj	d0fbff36da0eb999
+6	665	7302771634031925	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
+666	817	7302771635019277	raytracing/raytracing.exe	298a3d98a585b271
+11	658	7302771847931223	raytracing/CMakeFiles/raytracing.dir/raytracing.cpp.obj	cb63a507df515d7d
+658	771	7302771848593621	raytracing/raytracing.exe	298a3d98a585b271

@@ -69,6 +69,19 @@ bool SDLApp::setupRenderer() {
     return true;
 }
 
+bool SDLApp::setupTexture() {
+    texture = SDL_CreateTexture(renderer,
+        SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING,
+        image.width, image.height);
+    
+    if (!texture) {
+        std::cerr << "Could not setup texture!" << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
 void SDLApp::setup() {
     // change arguments to change image size
     this->setupImage(16.0 / 9.0, 400);
@@ -91,6 +104,13 @@ void SDLApp::setup() {
         SDL_DestroyWindow(window);
         SDL_Quit();
         throw std::runtime_error("Renderer could not be created!");
+    }
+
+    if (!setupTexture()) {
+        SDL_DestroyWindow(window);
+        SDL_DestroyRenderer(renderer);
+        SDL_Quit();
+        throw std::runtime_error("Texture could not be created!");
     }
 }
 

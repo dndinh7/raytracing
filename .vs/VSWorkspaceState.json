@@ -21,6 +21,6 @@
     "\\external\\SDL2\\lib\\x86",
     "\\raytracing"
   ],
-  "SelectedNode": "\\raytracing\\ray.h",
+  "SelectedNode": "\\raytracing\\Sphere.h",
   "PreviewInSolutionExplorer": false
 }

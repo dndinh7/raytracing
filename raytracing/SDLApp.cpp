@@ -2,7 +2,7 @@
 
 SDLApp::SDLApp() {}
 
-void SDLApp::setupImage(double aspect_ratio, int width) {
+void SDLApp::setupImageSize(double aspect_ratio, int width) {
     image.aspect_ratio = aspect_ratio;
     image.width = width;
 
@@ -70,6 +70,7 @@ bool SDLApp::setupRenderer() {
 }
 
 bool SDLApp::setupTexture() {
+    // change this value to change pixel format format (CURRENT IS RGBA)
     texture = SDL_CreateTexture(renderer,
         SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING,
         image.width, image.height);
@@ -82,12 +83,54 @@ bool SDLApp::setupTexture() {
     return true;
 }
 
+void SDLApp::setupPixels() {
+    image.pixels = new Uint32[image.width * image.height * 4];
+
+    // create the objects in the scene
+    Sphere s(point3(0, 0, -1), 0.5, vec3(1, 0, 0));
+
+    // transparency is opaque for now
+    unsigned char alpha = 255;
+    
+    Uint8 red = 0;
+    Uint8 green = 0;
+    Uint8 blue = 0;
+
+    for (int j = 0; j < image.height; ++j) {
+        for (int i = 0; i < image.width; ++i) {
+            // get the position of each pixel
+            point3 pixel_center = viewport.origin_pixel + (i * viewport.pixel_du) + (j * viewport.pixel_dv);
+            
+            // vector subtraction to get ray to the pixel center
+            vec3 ray_dir = pixel_center - viewport.camera_center;
+
+            ray r(viewport.camera_center, ray_dir);
+
+            // get the color of the pixels
+            color pixel_color = ray_color(s, r);
+
+            convert_col_to_RGB(pixel_color, red, green, blue);
+
+            // bit shift to place R G B A to pack them into the Uint32
+            image.pixels[i + (j * image.width)] = (red << 24) | (green << 16) | (blue << 8) | alpha;
+
+        }
+    }
+}
+
+void SDLApp::updateTexture() {
+    SDL_UpdateTexture(texture, nullptr, image.pixels, image.width * 4);
+}
+
 void SDLApp::setup() {
     // change arguments to change image size
-    this->setupImage(16.0 / 9.0, 400);
+    this->setupImageSize(16.0 / 9.0, 400);
 
     // change arguments to change FOV
     this->setupViewport(1.0, 2.0);
+
+    // set up pixels based on image size and viewport size
+    this->setupPixels();
 
 
     // set up window
@@ -112,6 +155,8 @@ void SDLApp::setup() {
         SDL_Quit();
         throw std::runtime_error("Texture could not be created!");
     }
+
+    updateTexture();
 }
 
 void SDLApp::update() {
@@ -122,6 +167,8 @@ void SDLApp::update() {
 }
 
 SDLApp::~SDLApp() {
+    delete[] image.pixels;
+    image.pixels = nullptr;
     if (renderer) SDL_DestroyRenderer(this->renderer);
     if (window) SDL_DestroyWindow(this->window);
     if (texture) SDL_DestroyTexture(this->texture);
@@ -139,9 +186,11 @@ void SDLApp::handleEvents() {
 
 void SDLApp::render() {
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // Red
+
 
     SDL_RenderClear(renderer);
+
+    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
 
     SDL_RenderPresent(renderer);
     

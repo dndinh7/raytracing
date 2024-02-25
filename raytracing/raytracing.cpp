@@ -1,13 +1,8 @@
 ﻿// raytracing.cpp : Defines the entry point for the application.
-//
+
 
 #include "raytracing.h"
-#include "vec3.h"
-#include "color.h"
-#include "ray.h"
 
-#include <iostream>
-#include "SDLApp.h"
 
 
 

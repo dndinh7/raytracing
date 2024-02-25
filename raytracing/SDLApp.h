@@ -3,12 +3,17 @@
 
 #include <SDL.h>
 #include "vec3.h"
-#include <iostream>
+#include "ray.h"
+#include "color.h"
+
 
 struct Image {
 	double aspect_ratio= -1;
 	int width= -1;
 	int height= -1;
+
+	// buffer of pixels to render to the screen
+	Uint32* pixels= nullptr;
 };
 
 struct Viewport {
@@ -42,6 +47,7 @@ class SDLApp {
 		SDL_Renderer* renderer = nullptr;
 		SDL_Texture* texture = nullptr;
 
+
 		// flag to continue rendering and displaying the window
 		bool loop = true;
 
@@ -49,7 +55,7 @@ class SDLApp {
 		Viewport viewport;
 
 		// will need a width and aspect ratio, then we calculate the height
-		void setupImage(double aspect_ratio, int width);
+		void setupImageSize(double aspect_ratio, int width);
 
 		// will calculate the origin and origin pixel based on focal_length and height
 		void setupViewport(double focal_length, double height, vec3 camera_center= vec3(0));
@@ -57,6 +63,8 @@ class SDLApp {
 		bool setupWindow();
 		bool setupRenderer();
 		bool setupTexture();
+		void setupPixels();
+		void updateTexture();
 
 		void handleEvents();
 		void render();

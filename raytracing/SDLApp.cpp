@@ -84,7 +84,7 @@ bool SDLApp::setupTexture() {
 }
 
 void SDLApp::setupPixels() {
-    image.pixels = new Uint32[image.width * image.height * 4];
+    image.pixels = new Uint32[image.width * image.height];
 
     // create the objects in the scene
     Sphere s(point3(0, 0, -1), 0.5, vec3(1, 0, 0));

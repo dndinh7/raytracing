@@ -15,7 +15,7 @@ public:
 	point3 origin() const { return orig; }
 	vec3 direction() const { return dir; }
 
-	bool intersects(const Sphere& s) const;
+	double intersects(const Sphere& s) const;
 	private:
 		point3 orig;
 		vec3 dir;

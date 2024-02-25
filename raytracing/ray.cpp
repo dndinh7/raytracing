@@ -6,7 +6,8 @@ point3 ray::at(double t) const {
 	return orig + dir * t;
 }
 
-bool ray::intersects(const Sphere& s) const {
+// this will return t, roots where the ray hits the sphere
+double ray::intersects(const Sphere& s) const {
 	// equation is (P - C) dot (P - C) = radius * radius to get a point on the sphere
 	// P = A + tB, it is a ray that will be equivalent to P at some t
 	// giving equation t^2*B dot B + 2 * t * B dot (A - C) + (A - C) dot (A - C) - r^2 = 0
@@ -21,5 +22,11 @@ bool ray::intersects(const Sphere& s) const {
 	double c = vec3::dot(AC, AC) - s.getRadius() * s.getRadius();
 
 	double discriminant = b * b - 4 * a * c;
-	return discriminant >= 0;
+
+	if (discriminant < 0) {
+		return -1.0;
+	}
+
+	// else return t (we will return smallest value of t for now since its closest to us)
+	return (-b - discriminant) / (2.0 * a);
 }

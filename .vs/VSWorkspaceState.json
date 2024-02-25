@@ -15,12 +15,11 @@
     "",
     "\\external",
     "\\external\\SDL2",
-    "\\external\\SDL2\\include",
     "\\external\\SDL2\\lib",
     "\\external\\SDL2\\lib\\x64",
     "\\external\\SDL2\\lib\\x86",
     "\\raytracing"
   ],
-  "SelectedNode": "\\raytracing\\raytracing.h",
+  "SelectedNode": "\\raytracing\\map.h",
   "PreviewInSolutionExplorer": false
 }

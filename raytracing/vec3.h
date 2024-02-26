@@ -39,7 +39,7 @@ class vec3 {
 
 		double length();
 
-		double length_squared();
+		double length_squared() const;
 
 		vec3 normalize();
 

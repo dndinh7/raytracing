@@ -2,7 +2,6 @@
 #define RAY_H
 
 #include "vec3.h"
-#include "Sphere.h"
 
 class ray {
 public:
@@ -15,7 +14,6 @@ public:
 	point3 origin() const { return orig; }
 	vec3 direction() const { return dir; }
 
-	double intersects(const Sphere& s) const;
 	private:
 		point3 orig;
 		vec3 dir;

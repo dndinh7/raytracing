@@ -2,9 +2,11 @@
 #define SDLAPP_H
 
 #include <SDL.h>
-#include "vec3.h"
-#include "ray.h"
 #include "color.h"
+#include "hittable_list.h"
+#include "hittable.h"
+#include "sphere.h"
+#include "rt_util.h"
 
 
 struct Image {
@@ -47,6 +49,9 @@ class SDLApp {
 		SDL_Renderer* renderer = nullptr;
 		SDL_Texture* texture = nullptr;
 
+		// objects in the world
+		hittable_list world;
+
 
 		// flag to continue rendering and displaying the window
 		bool loop = true;
@@ -74,4 +79,4 @@ class SDLApp {
 
 
 
-#endif SDLAPP_H
+#endif

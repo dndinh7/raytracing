@@ -24,4 +24,4 @@ inline vec3 map(const vec3& t, const vec3& start_old, const vec3& end_old, const
 }
 
 
-#endif MAP_H
+#endif

@@ -20,6 +20,6 @@
     "\\external\\SDL2\\lib\\x86",
     "\\raytracing"
   ],
-  "SelectedNode": "\\raytracing\\map.h",
+  "SelectedNode": "\\raytracing\\hittable_list.h",
   "PreviewInSolutionExplorer": false
 }

@@ -1,16 +1,16 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "vec3.h"
-#include "ray.h"
 #include "map.h"
+#include "hittable_list.h"
+#include "rt_util.h"
 #include <iostream>
 
 typedef uint8_t Uint8;
 
 using color = vec3;
 
-class Sphere;
+class sphere;
 
 inline void write_color(std::ostream& out, const color& pixel) {
 	// [0, 255]
@@ -25,17 +25,13 @@ inline void convert_col_to_RGB(const color& col, Uint8& red, Uint8& green, Uint8
     blue = static_cast<Uint8>(255.999 * col.z);
 } 
 
-inline color ray_color(const Sphere& s, const ray& r) {
+inline color ray_color(const ray& r, const hittable& world) {
     // if the ray hits the sphere, then we want to get the normal of that point on the surface
-    double t = r.intersects(s);
-    if (t >= 0) {
-        point3 p = r.at(t);
+    hit_record rec;
 
-        // get unit normal
-        vec3 norm = (p - s.getOrigin()).normalize();
-
+    if (world.intersects(r, 0, infinity, rec)) {
         // map to 0 to 1
-        color col = map(norm, vec3(-1), vec3(1), vec3(0), vec3(1));
+        color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
 
         return col;
     }
@@ -48,4 +44,4 @@ inline color ray_color(const Sphere& s, const ray& r) {
 }
 
 
-#endif COLOR
+#endif

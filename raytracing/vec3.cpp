@@ -64,7 +64,7 @@ vec3& vec3::operator/=(double t) {
 	return *this *= 1 / t;
 }
 
-double vec3::length_squared() {
+double vec3::length_squared() const {
 	return x * x + y * y + z * z;
 }
 

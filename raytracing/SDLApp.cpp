@@ -86,8 +86,8 @@ bool SDLApp::setupTexture() {
 void SDLApp::setupPixels() {
     image.pixels = new Uint32[image.width * image.height];
 
-    // create the objects in the scene
-    Sphere s(point3(0, 0, -1), 0.5, vec3(1, 0, 0));
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     // transparency is opaque for now
     unsigned char alpha = 255;
@@ -107,7 +107,7 @@ void SDLApp::setupPixels() {
             ray r(viewport.camera_center, ray_dir);
 
             // get the color of the pixels
-            color pixel_color = ray_color(s, r);
+            color pixel_color = ray_color(r, world);
 
             convert_col_to_RGB(pixel_color, red, green, blue);
 

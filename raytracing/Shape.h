@@ -6,15 +6,13 @@
 
 using color = vec3;
 
-class Shape {
+class shape {
 	protected:
 		point3 origin;
-		color col= vec3(1);
 
 	public:
-		Shape() : origin(point3(0)) {}
-		Shape(point3 origin) : origin(origin) {}
-		Shape(point3 origin, vec3 color) : origin(origin), col(color) {}
+		shape() : origin(point3(0)) {}
+		shape(point3 origin) : origin(origin) {}
 
 		point3 getOrigin() const {
 			return origin;
@@ -24,11 +22,7 @@ class Shape {
 			origin = origin;
 		}
 
-		color getColor() const {
-			return col;
-		}
-
 };
 
 
-#endif SHAPE_H
+#endif

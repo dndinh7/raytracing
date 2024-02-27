@@ -2,6 +2,7 @@
 #define SDLAPP_H
 
 #include <SDL.h>
+#include <fstream>
 #include "color.h"
 #include "hittable_list.h"
 #include "hittable.h"
@@ -73,6 +74,8 @@ class SDLApp {
 
 		void handleEvents();
 		void render();
+
+		void saveToPPM(const std::string& filename= "default.ppm");
 
 };
 

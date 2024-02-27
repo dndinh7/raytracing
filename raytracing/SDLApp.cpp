@@ -132,6 +132,7 @@ void SDLApp::setup() {
     // set up pixels based on image size and viewport size
     this->setupPixels();
 
+    this->saveToPPM("lol.ppm");
 
     // set up window
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -194,4 +195,29 @@ void SDLApp::render() {
 
     SDL_RenderPresent(renderer);
     
+}
+
+void SDLApp::saveToPPM(const std::string& filename) {
+    std::ofstream output(filename, std::ios::out);
+
+    if (output.is_open()) {
+        output << "P3\n" << image.width << ' ' << image.height << "\n255\n";
+
+        int buffer_size = image.width * image.height;
+
+
+        for (int i = 0; i < buffer_size; ++i) {
+            Uint32 pixel = image.pixels[i];
+            Uint8 red = pixel >> 24;
+            Uint8 green= pixel >> 16;
+            Uint8 blue = pixel >> 8;
+
+            output << static_cast<unsigned int>(red) << ' ' << 
+                    static_cast<unsigned int>(green) << ' ' << 
+                    static_cast<unsigned int>(blue) << '\n';
+
+        }
+
+        output.close();
+    }
 }

@@ -1,8 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
-#include "vec3.h"
+#include "rt_util.h"
 
 class hit_record {
 	public:
@@ -29,7 +28,7 @@ class hittable {
 	public:
 		virtual ~hittable() = default;
 
-		virtual bool intersects(const ray& r, double ray_tmin, double ray_tmax, hit_record& hit) const = 0;
+		virtual bool intersects(const ray& r, interval ray_t, hit_record& hit) const = 0;
 };
 
 

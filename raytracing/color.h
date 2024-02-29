@@ -3,7 +3,6 @@
 
 #include "map.h"
 #include "hittable_list.h"
-#include "rt_util.h"
 #include <iostream>
 
 typedef uint8_t Uint8;
@@ -29,7 +28,7 @@ inline color ray_color(const ray& r, const hittable& world) {
     // if the ray hits the sphere, then we want to get the normal of that point on the surface
     hit_record rec;
 
-    if (world.intersects(r, 0, infinity, rec)) {
+    if (world.intersects(r, interval(0, +infinity), rec)) {
         // map to 0 to 1
         color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
 

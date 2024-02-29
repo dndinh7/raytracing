@@ -7,17 +7,12 @@
 #include "hittable_list.h"
 #include "hittable.h"
 #include "sphere.h"
+#include "camera.h"
 #include "rt_util.h"
+#include "image.h"
 
 
-struct Image {
-	double aspect_ratio= -1;
-	int width= -1;
-	int height= -1;
 
-	// buffer of pixels to render to the screen
-	Uint32* pixels= nullptr;
-};
 
 struct Viewport {
 	float focal_length= -1;
@@ -57,7 +52,7 @@ class SDLApp {
 		// flag to continue rendering and displaying the window
 		bool loop = true;
 
-		Image image;
+		image image;
 		Viewport viewport;
 
 		// will need a width and aspect ratio, then we calculate the height

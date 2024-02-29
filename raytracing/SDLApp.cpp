@@ -84,7 +84,7 @@ bool SDLApp::setupTexture() {
 }
 
 void SDLApp::setupPixels() {
-    image.pixels = new Uint32[image.width * image.height];
+    image.pixels = new uint32_t[image.width * image.height];
 
     world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));

@@ -20,13 +20,13 @@ class hittable_list : public hittable {
 
 		void add(shared_ptr<hittable> object) { objects.push_back(object); }
 
-		bool intersects(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const override {
+		bool intersects(const ray& r, interval ray_t, hit_record& rec) const override {
 			hit_record closest_rec;
 			bool intersected_anything = false;
-			double closest_t = ray_tmax;
+			double closest_t = ray_t.max;
 
 			for (const auto& object : this->objects) {
-				if (object->intersects(r, ray_tmin, closest_t, closest_rec)) {
+				if (object->intersects(r, interval(ray_t.min, closest_t), closest_rec)) {
 					intersected_anything = true;
 					closest_t = closest_rec.t;
 					rec = closest_rec;

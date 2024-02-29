@@ -18,7 +18,7 @@ class sphere : public shape, public hittable {
 		* ray_tmin and ray_tmax is the range we will look for the root, insight is that we will
 		* don't want to render roots behind the closest objects
 		*/
-		bool intersects(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const override {
+		bool intersects(const ray& r, interval ray_t, hit_record& rec) const override {
 			// equation is (P - C) dot (P - C) = radius * radius to get a point on the sphere
 			// P = A + tB, it is a ray that will be equivalent to P at some t
 			// giving equation t^2*B dot B + 2 * t * B dot (A - C) + (A - C) dot (A - C) - r^2 = 0
@@ -52,9 +52,9 @@ class sphere : public shape, public hittable {
 
 			// we want to find the closest point (nearest root in the range)
 			double root = (-h - sqrt_disc) / a;
-			if (root < ray_tmin || root > ray_tmax) { // check if in range
+			if (!ray_t.surrounds(root)) { // check if in range
 				root = (-h + sqrt_disc) / a;
-				if (root < ray_tmin || root > ray_tmax) {
+				if (!ray_t.surrounds(root)) {
 					// if both roots are out of range, ray does not hit the sphere
 					return false;
 				}

@@ -8,73 +8,10 @@
 
 class camera {
 	public:
-		camera(image& image, const hittable& world) : image(image) { 
-			initialize(); 
-			setupPixels(world);
-		}
 
-		// sets up viewport and image origin
-		void initialize() {
-			viewport_width = viewport_height * (static_cast<double>(image.width) / image.height);
+		void render(image& image, const hittable& world) {
+			initialize(image);
 
-			// set up displacements to edge of viewport
-			viewport_u = vec3(viewport_width, 0, 0);
-			viewport_v = vec3(0, -viewport_height, 0);
-
-			// set up distance between two pixels
-			image.pixel_du = viewport_u / image.width;
-			image.pixel_dv = viewport_v / image.height;
-
-			// setup top left of viewport
-			viewport_origin = center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
-
-			// set up top left pixel of image
-			image.origin_pixel = viewport_origin + 0.5 * (image.pixel_du + image.pixel_dv);
-		}
-		
-
-	private:
-		point3 center= point3(0);
-
-		// change this for FOV (the greater value, the more zoomed in)
-		double focal_length = 1.0;
-
-		// decrease viewport height to zoom in and increase to zoom out (FOV)
-		double viewport_height = 2.0;
-
-		double viewport_width = 0; // will calculate from image width / image height ratio
-
-		// vertical displacement from viewport origin to right edge
-		vec3 viewport_u;
-
-		// horizontal displacement from viewport origin to left edge
-		vec3 viewport_v;
-
-		// top left corner of the viewport
-		vec3 viewport_origin;
-
-		image& image;
-
-
-		color ray_color(const ray& r, const hittable& world) const {
-			// if the ray hits the hittable object, then we want to get the normal of that point on the object
-			hit_record rec;
-
-			if (world.intersects(r, interval(0, +infinity), rec)) {
-				// map to 0 to 1
-				color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
-
-				return col;
-			}
-
-			// color is dependent on y value of ray, we normalize it to [0, 1]
-			vec3 unit_dir = r.direction().normalize();
-			double alpha = map(unit_dir.y, -1, 1, 0, 1);
-
-			return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
-		}
-
-		void setupPixels(const hittable& world) {
 			image.pixels = new uint32_t[image.width * image.height];
 
 			// transparency is opaque for now
@@ -105,6 +42,66 @@ class camera {
 				}
 			}
 		}
+
+	private:
+		point3 center= point3(0);
+
+		// change this for FOV (the greater value, the more zoomed in)
+		double focal_length = 1.0;
+
+		// decrease viewport height to zoom in and increase to zoom out (FOV)
+		double viewport_height = 2.0;
+
+		double viewport_width = 0; // will calculate from image width / image height ratio
+
+		// vertical displacement from viewport origin to right edge
+		vec3 viewport_u;
+
+		// horizontal displacement from viewport origin to left edge
+		vec3 viewport_v;
+
+		// top left corner of the viewport
+		vec3 viewport_origin;
+
+		// sets up viewport and image origin
+		void initialize(image& image) {
+			viewport_width = viewport_height * (static_cast<double>(image.width) / image.height);
+
+			// set up displacements to edge of viewport
+			viewport_u = vec3(viewport_width, 0, 0);
+			viewport_v = vec3(0, -viewport_height, 0);
+
+			// set up distance between two pixels
+			image.pixel_du = viewport_u / image.width;
+			image.pixel_dv = viewport_v / image.height;
+
+			// setup top left of viewport
+			viewport_origin = center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
+
+			// set up top left pixel of image
+			image.origin_pixel = viewport_origin + 0.5 * (image.pixel_du + image.pixel_dv);
+		}
+
+
+		color ray_color(const ray& r, const hittable& world) const {
+			// if the ray hits the hittable object, then we want to get the normal of that point on the object
+			hit_record rec;
+
+			if (world.intersects(r, interval(0, +infinity), rec)) {
+				// map to 0 to 1
+				color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
+
+				return col;
+			}
+
+			// color is dependent on y value of ray, we normalize it to [0, 1]
+			vec3 unit_dir = r.direction().normalize();
+			double alpha = map(unit_dir.y, -1, 1, 0, 1);
+
+			return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
+		}
+
+
 
 };
 

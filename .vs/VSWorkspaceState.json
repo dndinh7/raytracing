@@ -20,6 +20,6 @@
     "\\external\\SDL2\\lib\\x86",
     "\\raytracing"
   ],
-  "SelectedNode": "\\raytracing\\image.h",
+  "SelectedNode": "\\raytracing\\camera.h",
   "PreviewInSolutionExplorer": false
 }

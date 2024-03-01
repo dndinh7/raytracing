@@ -13,36 +13,6 @@ void SDLApp::setupImageSize(double aspect_ratio, int width) {
     image.height = height < 1 ? 1 : height;
 }
 
-void SDLApp::setupViewport(double focal_length, double height, vec3 camera_center) {
-    viewport.focal_length = focal_length;
-
-    // decrease height to zoom in and increase to zoom out (FOV)
-    viewport.height = height;
-
-    // using image width / height instead of apsect ratio b/c height may be truncated to nearest int and can't be less than 1
-    float width = height * (static_cast<float>(image.width) / image.height);
-    viewport.width = width;
-
-    viewport.camera_center = camera_center;
-
-    // Get the vectors to viewport edges
-    // right is +x, up is +y, towards viewport is -z
-    viewport.u = vec3(width, 0, 0);
-
-    // negative because we are going from top to bottom
-    viewport.v = vec3(0, -height, 0);
-
-    // calculate the delta of the displacement between pixels
-    viewport.pixel_du = viewport.u / image.width;
-    viewport.pixel_dv = viewport.v / image.height;
-
-    // calculate position of the origin (top left) of viewport and pixel
-    viewport.origin = camera_center - vec3(0, 0, focal_length) - viewport.u / 2 - viewport.v / 2;
-
-    // offset by the deltas to get the center of pixel
-    viewport.origin_pixel = viewport.origin + 0.5 * (viewport.pixel_du, viewport.pixel_dv);
-}
-
 bool SDLApp::setupWindow() {
     window = SDL_CreateWindow("SDL2 Window",
         SDL_WINDOWPOS_CENTERED,
@@ -83,40 +53,11 @@ bool SDLApp::setupTexture() {
     return true;
 }
 
-void SDLApp::setupPixels() {
-    image.pixels = new uint32_t[image.width * image.height];
-
+void SDLApp::setupWorld() {
     world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
-
-    // transparency is opaque for now
-    unsigned char alpha = 255;
-    
-    Uint8 red = 0;
-    Uint8 green = 0;
-    Uint8 blue = 0;
-
-    for (int j = 0; j < image.height; ++j) {
-        for (int i = 0; i < image.width; ++i) {
-            // get the position of each pixel
-            point3 pixel_center = viewport.origin_pixel + (i * viewport.pixel_du) + (j * viewport.pixel_dv);
-            
-            // vector subtraction to get ray to the pixel center
-            vec3 ray_dir = pixel_center - viewport.camera_center;
-
-            ray r(viewport.camera_center, ray_dir);
-
-            // get the color of the pixels
-            color pixel_color = ray_color(r, world);
-
-            convert_col_to_RGB(pixel_color, red, green, blue);
-
-            // bit shift to place R G B A to pack them into the Uint32
-            image.pixels[i + (j * image.width)] = (red << 24) | (green << 16) | (blue << 8) | alpha;
-
-        }
-    }
 }
+
 
 void SDLApp::updateTexture() {
     SDL_UpdateTexture(texture, nullptr, image.pixels, image.width * 4);
@@ -126,11 +67,11 @@ void SDLApp::setup() {
     // change arguments to change image size
     this->setupImageSize(16.0 / 9.0, 400);
 
-    // change arguments to change FOV
-    this->setupViewport(1.0, 2.0);
+    // set up the scene of objects
+    this->setupWorld();
 
-    // set up pixels based on image size and viewport size
-    this->setupPixels();
+    // this initializes camera and does an initial rendering of the scene
+    camera.render(image, world);
 
     this->saveToPPM("lol.ppm");
 
@@ -186,8 +127,6 @@ void SDLApp::handleEvents() {
 }
 
 void SDLApp::render() {
-
-
 
     SDL_RenderClear(renderer);
 

@@ -26,15 +26,13 @@ class camera {
 					// get the position of each pixel
 					point3 pixel_center = image.origin_pixel + (i * image.pixel_du) + (j * image.pixel_dv);
 
-					// vector subtraction to get ray to the pixel center
-					vec3 ray_dir = pixel_center - center;
+					color pixel_color = vec3(0);
+					for (int k = 0; k < image.samples_per_pixel; ++k) {
+						ray r = get_sample_ray(pixel_center, image.pixel_du, image.pixel_dv);
+						pixel_color += this->ray_color(r, world);
+					}
 
-					ray r(center, ray_dir);
-
-					// get the color of the pixels
-					color pixel_color = this->ray_color(r, world);
-
-					convert_col_to_RGB(pixel_color, red, green, blue);
+					convert_col_to_RGB(pixel_color, image.samples_per_pixel, red, green, blue);
 
 					// bit shift to place R G B A to pack them into the Uint32
 					image.pixels[i + (j * image.width)] = (red << 24) | (green << 16) | (blue << 8) | alpha;
@@ -96,9 +94,29 @@ class camera {
 
 			// color is dependent on y value of ray, we normalize it to [0, 1]
 			vec3 unit_dir = r.direction().normalize();
-			double alpha = map(unit_dir.y, -1, 1, 0, 1);
+			double alpha = map(unit_dir.y, interval(-1, 1), interval(0, 1));
 
 			return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
+		}
+
+		// we will get a ray in the confines of a pixel [(p.x - 0.5, p.y - 0.5),(p.x + 0.5, p.y + 0.5)]
+		ray get_sample_ray(const point3& pixel_center, const vec3& pixel_delta_u, const vec3& pixel_delta_v) const {
+			point3 pixel_sample = pixel_center + get_sample_offset(pixel_delta_u, pixel_delta_v);
+
+			vec3 ray_dir = pixel_sample - this->center;
+
+			return ray(this->center, ray_dir);
+		}
+
+		vec3 get_sample_offset(const vec3& pixel_delta_u, const vec3& pixel_delta_v) const {
+			vec3 du = (random_double() - 0.5) * pixel_delta_u;
+			
+
+			vec3 dv = (random_double() - 0.5) * pixel_delta_v;
+
+
+			return du + dv;
+
 		}
 
 

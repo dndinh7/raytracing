@@ -9,6 +9,8 @@ struct image {
 	int width = -1;
 	int height = -1;
 
+	int samples_per_pixel = -1; // how many random samples we will have for each pixel
+
 	// pixel information
 	vec3 pixel_du; // horizontal distance between pixels
 	vec3 pixel_dv; // vertical distance between pixels

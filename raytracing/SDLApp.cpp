@@ -2,9 +2,10 @@
 
 SDLApp::SDLApp() {}
 
-void SDLApp::setupImageSize(double aspect_ratio, int width) {
+void SDLApp::setupImageSize(double aspect_ratio, int width, int samples_per_pixel) {
     image.aspect_ratio = aspect_ratio;
     image.width = width;
+    image.samples_per_pixel = samples_per_pixel;
 
     // aspect_ratio = width / height
     int height = static_cast<int>(width / aspect_ratio);
@@ -64,8 +65,8 @@ void SDLApp::updateTexture() {
 }
 
 void SDLApp::setup() {
-    // change arguments to change image size
-    this->setupImageSize(16.0 / 9.0, 400);
+    // change arguments to change image size, and the number of samples for anti-aliasing
+    this->setupImageSize(16.0 / 9.0, 400, 100);
 
     // set up the scene of objects
     this->setupWorld();

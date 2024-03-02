@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "map.h"
+
 #include "hittable_list.h"
 #include <iostream>
 
@@ -18,29 +18,23 @@ inline void write_color(std::ostream& out, const color& pixel) {
 		<< static_cast<int>(255.999 * pixel.z) << std::endl;
 }
 
-inline void convert_col_to_RGB(const color& col, Uint8& red, Uint8& green, Uint8& blue) {
-    red = static_cast<Uint8>(255.999 * col.x);
-    green = static_cast<Uint8>(255.999 * col.y);
-    blue = static_cast<Uint8>(255.999 * col.z);
+inline void convert_col_to_RGB(const color& col_sum, int samples_per_pixel, Uint8& red, Uint8& green, Uint8& blue) {
+	double scale = 1.0 / samples_per_pixel;
+
+	interval intensity(0.0, 0.999);
+
+	double r = intensity.clamp(col_sum.x * scale);
+	double g = intensity.clamp(col_sum.y * scale);
+	double b = intensity.clamp(col_sum.z * scale);
+
+
+	
+	// r, g, b < 1, and the cast will truncate the value 
+	red = static_cast<Uint8>(256 * r);
+    green = static_cast<Uint8>(256 * g);
+    blue = static_cast<Uint8>(256 * b);
 } 
 
-inline color ray_color(const ray& r, const hittable& world) {
-    // if the ray hits the sphere, then we want to get the normal of that point on the surface
-    hit_record rec;
-
-    if (world.intersects(r, interval(0, +infinity), rec)) {
-        // map to 0 to 1
-        color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
-
-        return col;
-    }
-
-    // color is dependent on y value of ray, we normalize it to [0, 1]
-    vec3 unit_dir = r.direction().normalize();
-    double alpha = map(unit_dir.y, -1, 1, 0, 1);
-
-    return vec3::lerp(color(1.0, 1.0, 1.0), color(0.5, 0.7, 1.0), alpha);
-}
 
 
 #endif

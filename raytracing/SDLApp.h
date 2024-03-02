@@ -57,7 +57,7 @@ class SDLApp {
 		Viewport viewport;
 
 		// will need a width and aspect ratio, then we calculate the height
-		void setupImageSize(double aspect_ratio, int width);
+		void setupImageSize(double aspect_ratio, int width, int samples_per_pixel);
 
 
 		bool setupWindow();

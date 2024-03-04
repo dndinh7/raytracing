@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 
+
 class vec3 {
 	public:
 		double x;
@@ -53,7 +54,11 @@ class vec3 {
 
 		static vec3 cross(const vec3& a, const vec3& b);
 
+		static vec3 random();
 
+		static vec3 random(double min, double max);
+
+		static bool same_dir(const vec3& a, const vec3& b);
 };
 
 using point3 = vec3;
@@ -65,5 +70,25 @@ inline vec3 operator*(double t, const vec3& v) {
 inline std::ostream& operator<<(std::ostream& os, const vec3& v) {
 	return os << v.x << ' ' << v.y << ' ' << v.z;
 }
+
+inline vec3 random_in_unit_sphere() {
+	while (true) {
+		vec3 p = vec3::random(-1, 1);
+		if (p.length_squared() < 1) return p;
+	}
+}
+
+inline vec3 random_unit_vector() {
+	return random_in_unit_sphere().normalize();
+}
+
+inline vec3 random_on_hemisphere(const vec3& normal) {
+	vec3 on_unit_sphere = random_unit_vector();
+	if (vec3::same_dir(on_unit_sphere, normal)) {
+		return on_unit_sphere;
+	}
+	return -on_unit_sphere;
+}
+
 
 #endif

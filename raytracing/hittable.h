@@ -5,17 +5,17 @@
 
 class hit_record {
 	public:
-		point3 p;
-		vec3 normal;
-		double t;
-		bool front_face;
+		point3 p; // hit point
+		vec3 normal; // normal to surface
+		double t; // "time" at which it hit
+		bool front_face; // determines if the normal is part of the front face
 
 		// outward_normal should be unit vector
 		void set_face_normal(const ray& r, const vec3& outward_normal) {
-			// dot product : dot(u, v) = ||u|| * ||v|| * cos(theta)
-			// positive means u and v are pointing in the same direciton
-			// negative means u and v are pointing in the opposite direction
-			front_face = vec3::dot(r.direction(), outward_normal) < 0;
+			
+			// if the ray comes from inside the sphere, then the front_face is the inside
+			front_face = !vec3::same_dir(r.direction(), outward_normal);
+			
 
 			// normal should always be opposite to the ray, so that we render the face correctly
 			normal = front_face ? outward_normal : -outward_normal;

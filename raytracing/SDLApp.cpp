@@ -64,9 +64,24 @@ void SDLApp::updateTexture() {
     SDL_UpdateTexture(texture, nullptr, image.pixels, image.width * 4);
 }
 
+void SDLApp::setupSettings() {
+    settings* settings = settings::getInstance();
+
+    this->aspect_ratio = 16.0 / 9.0;
+    this->image_width = 400;
+    this->samples_per_pixel = 75;
+    camera.max_depth = 50;
+
+    if (!settings->getAntiAliasing()) {
+        this->samples_per_pixel = 1;
+    }
+}
+
 void SDLApp::setup() {
+    this->setupSettings();
+
     // change arguments to change image size, and the number of samples for anti-aliasing
-    this->setupImageSize(16.0 / 9.0, 400, 100);
+    this->setupImageSize(this->aspect_ratio, this->image_width, this->samples_per_pixel);
 
     // set up the scene of objects
     this->setupWorld();

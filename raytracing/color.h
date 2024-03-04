@@ -19,6 +19,7 @@ inline void write_color(std::ostream& out, const color& pixel) {
 }
 
 inline void convert_col_to_RGB(const color& col_sum, int samples_per_pixel, Uint8& red, Uint8& green, Uint8& blue) {
+	
 	double scale = 1.0 / samples_per_pixel;
 
 	interval intensity(0.0, 0.999);

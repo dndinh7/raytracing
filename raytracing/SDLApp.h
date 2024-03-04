@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "rt_util.h"
 #include "image.h"
+#include "settings.h"
 
 
 
@@ -45,6 +46,11 @@ class SDLApp {
 		SDL_Renderer* renderer = nullptr;
 		SDL_Texture* texture = nullptr;
 
+		// initial settings for setup
+		double aspect_ratio= 16.0 / 9.0;
+		double image_width= 400;
+		int samples_per_pixel= 75;
+
 		camera camera;
 
 		// objects in the world
@@ -63,9 +69,9 @@ class SDLApp {
 		bool setupWindow();
 		bool setupRenderer();
 		bool setupTexture();
-		void setupPixels();
 		void updateTexture();
 		void setupWorld();
+		void setupSettings();
 
 		void handleEvents();
 		void render();

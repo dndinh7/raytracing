@@ -109,6 +109,14 @@ build raytracing\CMakeFiles\raytracing.dir\SDLApp.cpp.obj: CXX_COMPILER__raytrac
   TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
   TARGET_PDB = raytracing\raytracing.pdb
 
+build raytracing\CMakeFiles\raytracing.dir\settings.cpp.obj: CXX_COMPILER__raytracing_unscanned_Debug C$:\Users\David\Documents\projects\raytracing\raytracing\settings.cpp || cmake_object_order_depends_target_raytracing
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20
+  INCLUDES = -IC:\Users\David\Documents\projects\raytracing\external\SDL2\include
+  OBJECT_DIR = raytracing\CMakeFiles\raytracing.dir
+  OBJECT_FILE_DIR = raytracing\CMakeFiles\raytracing.dir
+  TARGET_COMPILE_PDB = raytracing\CMakeFiles\raytracing.dir\
+  TARGET_PDB = raytracing\raytracing.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target raytracing
@@ -117,7 +125,7 @@ build raytracing\CMakeFiles\raytracing.dir\SDLApp.cpp.obj: CXX_COMPILER__raytrac
 #############################################
 # Link the executable raytracing\raytracing.exe
 
-build raytracing\raytracing.exe: CXX_EXECUTABLE_LINKER__raytracing_Debug raytracing\CMakeFiles\raytracing.dir\raytracing.cpp.obj raytracing\CMakeFiles\raytracing.dir\vec3.cpp.obj raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj raytracing\CMakeFiles\raytracing.dir\SDLApp.cpp.obj | C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2.lib
+build raytracing\raytracing.exe: CXX_EXECUTABLE_LINKER__raytracing_Debug raytracing\CMakeFiles\raytracing.dir\raytracing.cpp.obj raytracing\CMakeFiles\raytracing.dir\vec3.cpp.obj raytracing\CMakeFiles\raytracing.dir\ray.cpp.obj raytracing\CMakeFiles\raytracing.dir\SDLApp.cpp.obj raytracing\CMakeFiles\raytracing.dir\settings.cpp.obj | C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib C$:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2main.lib  C:\Users\David\Documents\projects\raytracing\external\SDL2\lib\x64\SDL2.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

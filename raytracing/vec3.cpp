@@ -1,4 +1,5 @@
 #include "vec3.h"
+#include "rt_util.h"
 
 // Default constructor (zero vector)
 vec3::vec3() : x(0), y(0), z(0) {}
@@ -96,4 +97,19 @@ double vec3::distance(const vec3& a, const vec3& b) {
 
 vec3 vec3::lerp(const vec3& a, const vec3& b, double t) {
 	return a * (1 - t) + b * t;
+}
+
+vec3 vec3::random() {
+	return vec3(random_double(), random_double(), random_double());
+}
+
+vec3 vec3::random(double min, double max) {
+	return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+}
+
+// dot product : dot(u, v) = ||u|| * ||v|| * cos(theta)
+// positive means u and v are pointing in the same direction
+// negative means u and v are pointing in the opposite direction
+bool vec3::same_dir(const vec3& a, const vec3& b) {
+	return dot(a, b) > 0.0;
 }

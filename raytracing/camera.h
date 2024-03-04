@@ -5,9 +5,20 @@
 #include "image.h"
 #include "hittable.h"
 #include "color.h"
+#include "settings.h"
 
 class camera {
 	public:
+		point3 center = point3(0);
+
+		// change this for FOV (the greater value, the more zoomed in)
+		double focal_length = 1.0;
+
+		// decrease viewport height to zoom in and increase to zoom out (FOV)
+		double viewport_height = 2.0;
+
+		// this will determine how many times we allow diffusing
+		int max_depth = 10;
 
 		void render(image& image, const hittable& world) {
 			initialize(image);
@@ -27,10 +38,21 @@ class camera {
 					point3 pixel_center = image.origin_pixel + (i * image.pixel_du) + (j * image.pixel_dv);
 
 					color pixel_color = vec3(0);
-					for (int k = 0; k < image.samples_per_pixel; ++k) {
-						ray r = get_sample_ray(pixel_center, image.pixel_du, image.pixel_dv);
-						pixel_color += this->ray_color(r, world);
+					// if anti-aliasing turned off then we only get the ray to the center
+					if (!settings::getInstance()->getAntiAliasing()) {
+						vec3 ray_dir = pixel_center - this->center;
+						ray r(this->center, ray_dir);
+
+						pixel_color = this->ray_color(r, max_depth, world);
 					}
+					else {
+						for (int k = 0; k < image.samples_per_pixel; ++k) {
+							ray r = get_sample_ray(pixel_center, image.pixel_du, image.pixel_dv);
+							pixel_color += this->ray_color(r, max_depth, world);
+						}
+					}
+
+
 
 					convert_col_to_RGB(pixel_color, image.samples_per_pixel, red, green, blue);
 
@@ -42,15 +64,11 @@ class camera {
 		}
 
 	private:
-		point3 center= point3(0);
 
-		// change this for FOV (the greater value, the more zoomed in)
-		double focal_length = 1.0;
-
-		// decrease viewport height to zoom in and increase to zoom out (FOV)
-		double viewport_height = 2.0;
 
 		double viewport_width = 0; // will calculate from image width / image height ratio
+
+
 
 		// vertical displacement from viewport origin to right edge
 		vec3 viewport_u;
@@ -81,15 +99,21 @@ class camera {
 		}
 
 
-		color ray_color(const ray& r, const hittable& world) const {
+		color ray_color(const ray& r, int depth, const hittable& world) const {
+			if (depth <= 0) return color(0);
+
 			// if the ray hits the hittable object, then we want to get the normal of that point on the object
 			hit_record rec;
 
-			if (world.intersects(r, interval(0, +infinity), rec)) {
-				// map to 0 to 1
-				color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
+			// slightly offset to account for floating point error that might hit the same surface again
+			if (world.intersects(r, interval(0.001, +infinity), rec)) {
+				vec3 diffuse_vector = rec.normal + random_unit_vector(); // lambertian distribution
 
-				return col;
+				// map to 0 to 1
+				// color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
+
+				// we then have the diffuse ray see if it hits anything, and will have 50% of the light it reflects
+				return 0.5 * ray_color(ray(rec.p, diffuse_vector), depth-1, world);
 			}
 
 			// color is dependent on y value of ray, we normalize it to [0, 1]

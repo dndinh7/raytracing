@@ -6,6 +6,7 @@
 #include "hittable.h"
 #include "color.h"
 #include "settings.h"
+#include "material.h"
 
 class camera {
 	public:
@@ -107,13 +108,15 @@ class camera {
 
 			// slightly offset to account for floating point error that might hit the same surface again
 			if (world.intersects(r, interval(0.001, +infinity), rec)) {
-				vec3 diffuse_vector = rec.normal + random_unit_vector(); // lambertian distribution
+				ray scattered;
+				color attenuation;
 
-				// map to 0 to 1
-				// color col = map(rec.normal, vec3(-1), vec3(1), vec3(0), vec3(1));
+				// if the point hit is of material that can scatter, then we'll continue diffusing light
+				if (rec.mat->scatter(r, rec, attenuation, scattered)) 
+					return attenuation * ray_color(scattered, depth - 1, world);
 
-				// we then have the diffuse ray see if it hits anything, and will have 50% of the light it reflects
-				return 0.5 * ray_color(ray(rec.p, diffuse_vector), depth-1, world);
+				// if there is no scattering, then we return black (no light)
+				return color(0);
 			}
 
 			// color is dependent on y value of ray, we normalize it to [0, 1]

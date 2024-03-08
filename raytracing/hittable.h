@@ -3,10 +3,13 @@
 
 #include "rt_util.h"
 
+class material;
+
 class hit_record {
 	public:
 		point3 p; // hit point
 		vec3 normal; // normal to surface
+		shared_ptr<material> mat;
 		double t; // "time" at which it hit
 		bool front_face; // determines if the normal is part of the front face
 

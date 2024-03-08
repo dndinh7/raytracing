@@ -11,6 +11,7 @@
 #include "rt_util.h"
 #include "image.h"
 #include "settings.h"
+#include "material.h"
 
 
 

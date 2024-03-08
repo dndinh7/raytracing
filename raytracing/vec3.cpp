@@ -26,6 +26,10 @@ vec3 vec3::operator-(const vec3& v) const {
 	return vec3(x - v.x, y - v.y, z - v.z);
 }
 
+vec3 vec3::operator*(const vec3& v) const {
+	return vec3(x * v.x, y * v.y, z * v.z);
+}
+
 vec3& vec3::operator+=(const vec3& v) {
 	x += v.x;
 	y += v.y;
@@ -69,6 +73,10 @@ double vec3::length_squared() const {
 	return x * x + y * y + z * z;
 }
 
+bool vec3::near_zero() const {
+	return this->length_squared() < 1e-16;
+}
+
 double vec3::length() {
 	return sqrt(this->length_squared());
 }
@@ -105,6 +113,13 @@ vec3 vec3::random() {
 
 vec3 vec3::random(double min, double max) {
 	return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+}
+
+vec3 vec3::reflect(const vec3& v, const vec3& n) {
+
+	// we dot(v, n) to get the magnitude of v in the direction of n (subtract since it's opposite of the direction of v)
+	// this will reflect v across the n vector (as v's direction should be opposite to n)
+	return v - 2 * dot(v, n) * n;
 }
 
 // dot product : dot(u, v) = ||u|| * ||v|| * cos(theta)

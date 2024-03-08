@@ -6,9 +6,10 @@
 
 class sphere : public shape, public hittable {
 	public:
-		sphere() : shape(), radius(1) {}
-		sphere(point3 origin) : shape(origin), radius(1) {}
+		// delete after putting in share pointer for material
 		sphere(point3 origin, double radius) : shape(origin), radius(radius) {}
+
+		sphere(point3 origin, double radius, shared_ptr<material> material) : shape(origin), radius(radius), mat(material) {}
 
 		// gets radius
 		double getRadius() const {
@@ -68,11 +69,14 @@ class sphere : public shape, public hittable {
 
 			rec.set_face_normal(r, outward_normal);
 
+			rec.mat = mat;
+
 			return true;
 		}
 
 	private:
 		double radius;
+		shared_ptr<material> mat;
 };
 
 

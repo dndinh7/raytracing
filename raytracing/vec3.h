@@ -21,6 +21,8 @@ class vec3 {
 
 		vec3 operator-(const vec3& v) const;
 
+		vec3 operator* (const vec3& v) const;
+
 		// for division do * 1/t
 		vec3 operator*(double t) const;
 
@@ -42,6 +44,8 @@ class vec3 {
 
 		double length_squared() const;
 
+		bool near_zero() const;
+
 		vec3 normalize();
 
 		static double distance_squared(const vec3& a, const vec3& b);
@@ -59,6 +63,8 @@ class vec3 {
 		static vec3 random(double min, double max);
 
 		static bool same_dir(const vec3& a, const vec3& b);
+
+		static vec3 reflect(const vec3& v, const vec3& n);
 };
 
 using point3 = vec3;

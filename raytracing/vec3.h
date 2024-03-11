@@ -65,6 +65,8 @@ class vec3 {
 		static bool same_dir(const vec3& a, const vec3& b);
 
 		static vec3 reflect(const vec3& v, const vec3& n);
+
+		static vec3 refract(const vec3& v, const vec3& n, double etai_over_etat);
 };
 
 using point3 = vec3;

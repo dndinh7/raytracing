@@ -122,6 +122,15 @@ vec3 vec3::reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;
 }
 
+vec3 vec3::refract(const vec3& v, const vec3& n, double etai_over_etat) {
+	double cos_theta = fmin(dot(-v, n), 1.0);
+
+	// vector decomposition
+	vec3 r_perpendicular = etai_over_etat * (v + cos_theta * n);
+	vec3 r_parallel = -sqrt(fabs(1 - r_perpendicular.length_squared())) * n;
+	return r_perpendicular + r_parallel;
+}
+
 // dot product : dot(u, v) = ||u|| * ||v|| * cos(theta)
 // positive means u and v are pointing in the same direction
 // negative means u and v are pointing in the opposite direction

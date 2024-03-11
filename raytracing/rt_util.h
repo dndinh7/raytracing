@@ -23,7 +23,7 @@ const double pi = 3.1415926535897932385;
 
 // functions
 inline double degrees_to_rad(double degrees) {
-	return degrees * 180 / pi;
+	return degrees * pi / 180;
 }
 
 // 0 to 1

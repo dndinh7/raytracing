@@ -15,11 +15,10 @@ class camera {
 		// change this for FOV (the greater value, the more zoomed in)
 		double focal_length = 1.0;
 
-		// decrease viewport height to zoom in and increase to zoom out (FOV)
-		double viewport_height = 2.0;
-
 		// this will determine how many times we allow diffusing
 		int max_depth = 10;
+
+		double vfov = 90; // vertical view angle in degrees
 
 		void render(image& image, const hittable& world) {
 			initialize(image);
@@ -82,6 +81,13 @@ class camera {
 
 		// sets up viewport and image origin
 		void initialize(image& image) {
+
+			// given the fov, we can calculate the viewport height
+			double theta = degrees_to_rad(vfov);
+			double h = focal_length * tan(theta / 2);
+
+			double viewport_height = 2 * h;
+
 			viewport_width = viewport_height * (static_cast<double>(image.width) / image.height);
 
 			// set up displacements to edge of viewport

@@ -10,17 +10,21 @@
 
 class camera {
 	public:
-		point3 center = point3(0);
-
-		// change this for FOV (the greater value, the more zoomed in)
-		double focal_length = 1.0;
+		point3 center = point3(0, 0, -1);
 
 		// this will determine how many times we allow diffusing
 		int max_depth = 10;
 
 		double vfov = 90; // vertical view angle in degrees
 
-		void render(image& image, const hittable& world) {
+		// point for the camera to look at
+		point3 look_at = vec3(0);
+
+		void render(image& image, const hittable& world, point3 cam_pos= vec3(0, 0, -1), point3 look_pos= vec3(0), double v_fov= 90) {
+			center = cam_pos;
+			look_at = look_pos;
+			vfov = v_fov;
+
 			initialize(image);
 
 			image.pixels = new uint32_t[image.width * image.height];
@@ -64,11 +68,10 @@ class camera {
 		}
 
 	private:
-
+		vec3 u, v, w; // camera axes
+		vec3 world_up = vec3(0, 1, 0);
 
 		double viewport_width = 0; // will calculate from image width / image height ratio
-
-
 
 		// vertical displacement from viewport origin to right edge
 		vec3 viewport_u;
@@ -81,6 +84,8 @@ class camera {
 
 		// sets up viewport and image origin
 		void initialize(image& image) {
+			// set up length from camera to point
+			double focal_length = (center - look_at).length();
 
 			// given the fov, we can calculate the viewport height
 			double theta = degrees_to_rad(vfov);
@@ -90,16 +95,28 @@ class camera {
 
 			viewport_width = viewport_height * (static_cast<double>(image.width) / image.height);
 
+			// forward camera axis
+			this->w = (center - look_at).normalize();
+
+			// right camera axis (note we are doing up cross z since z is "backwards")
+			this->u = vec3::cross(world_up, this->w).normalize();
+
+			// up camera axis (similarly, z cross x cause z is "backwards")
+			this->v = vec3::cross(this->w, this->u);
+
+
 			// set up displacements to edge of viewport
-			viewport_u = vec3(viewport_width, 0, 0);
-			viewport_v = vec3(0, -viewport_height, 0);
+			viewport_u = viewport_width * this->u;
+
+			// top to bottom
+			viewport_v = viewport_height * -this->v;
 
 			// set up distance between two pixels
 			image.pixel_du = viewport_u / image.width;
 			image.pixel_dv = viewport_v / image.height;
 
 			// setup top left of viewport
-			viewport_origin = center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
+			viewport_origin = center - (focal_length * this->w) - viewport_u / 2 - viewport_v / 2;
 
 			// set up top left pixel of image
 			image.origin_pixel = viewport_origin + 0.5 * (image.pixel_du + image.pixel_dv);

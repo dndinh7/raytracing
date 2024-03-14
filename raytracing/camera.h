@@ -20,10 +20,18 @@ class camera {
 		// point for the camera to look at
 		point3 look_at = vec3(0);
 
-		void render(image& image, const hittable& world, point3 cam_pos= vec3(0, 0, -1), point3 look_pos= vec3(0), double v_fov= 90) {
-			center = cam_pos;
-			look_at = look_pos;
-			vfov = v_fov;
+		double defocus_angle = 0; // variation of angle of rays through each pixel
+		double focus_dist = 10; // distance from center of camera to plane of focus
+
+		void render(image& image, const hittable& world,
+			point3 cam_pos = vec3(0, 0, -1), point3 look_pos = vec3(0), double v_fov = 90,
+			double defocus_ang = 10.0, double focus_dis = 10.0) {
+			this->center = cam_pos;
+			this->look_at = look_pos;
+			this->vfov = v_fov;
+			this->defocus_angle = defocus_ang;
+			this->focus_dist = focus_dis;
+
 
 			initialize(image);
 
@@ -82,14 +90,16 @@ class camera {
 		// top left corner of the viewport
 		vec3 viewport_origin;
 
+		vec3 defocus_disk_u;
+		vec3 defocus_disk_v;
+
 		// sets up viewport and image origin
 		void initialize(image& image) {
 			// set up length from camera to point
-			double focal_length = (center - look_at).length();
 
 			// given the fov, we can calculate the viewport height
 			double theta = degrees_to_rad(vfov);
-			double h = focal_length * tan(theta / 2);
+			double h = focus_dist * tan(theta / 2);
 
 			double viewport_height = 2 * h;
 
@@ -116,10 +126,17 @@ class camera {
 			image.pixel_dv = viewport_v / image.height;
 
 			// setup top left of viewport
-			viewport_origin = center - (focal_length * this->w) - viewport_u / 2 - viewport_v / 2;
+			viewport_origin = center - (focus_dist * this->w) - viewport_u / 2 - viewport_v / 2;
 
 			// set up top left pixel of image
 			image.origin_pixel = viewport_origin + 0.5 * (image.pixel_du + image.pixel_dv);
+
+			// calculate defocus disk basis vectors
+			double defocus_theta = degrees_to_rad(defocus_angle / 2);
+			double defocus_radius = focus_dist * tan(defocus_theta);
+			this->defocus_disk_u = this->u * defocus_radius;
+			this->defocus_disk_v = this->v * defocus_radius;
+
 		}
 
 
@@ -153,11 +170,19 @@ class camera {
 		ray get_sample_ray(const point3& pixel_center, const vec3& pixel_delta_u, const vec3& pixel_delta_v) const {
 			point3 pixel_sample = pixel_center + get_sample_offset(pixel_delta_u, pixel_delta_v);
 
-			vec3 ray_dir = pixel_sample - this->center;
+			point3 ray_origin = (this->defocus_angle <= 0) ? center : defocus_disk_sample();
+			vec3 ray_dir = pixel_sample - ray_origin;
 
-			return ray(this->center, ray_dir);
+			return ray(ray_origin, ray_dir);
 		}
 
+		// gets ray origin from the lens disk to shoot a ray to plane
+		point3 defocus_disk_sample() const {
+			vec3 p = vec3::random_in_unit_disk();
+			return center + (p.x * this->defocus_disk_u) + (p.y * this->defocus_disk_v);
+		}
+
+		// randomly get point in the pixel square
 		vec3 get_sample_offset(const vec3& pixel_delta_u, const vec3& pixel_delta_v) const {
 			vec3 du = (random_double() - 0.5) * pixel_delta_u;
 			

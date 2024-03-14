@@ -137,3 +137,10 @@ vec3 vec3::refract(const vec3& v, const vec3& n, double etai_over_etat) {
 bool vec3::same_dir(const vec3& a, const vec3& b) {
 	return dot(a, b) > 0.0;
 }
+
+vec3 vec3::random_in_unit_disk() {
+	while (true) {
+		vec3 p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+		if (p.length_squared() < 1) return p;
+	}
+}

@@ -106,7 +106,7 @@ void SDLApp::setup() {
     this->setupWorld();
 
     // this initializes camera and does an initial rendering of the scene
-    camera.render(image, world, point3(-2, 2, 1), point3(0, 0, -1), 20);
+    camera.render(image, world, point3(-2, 2, 1), point3(0, 0, -1), 20, 10.0, 3.4);
 
     this->saveToPPM("lol.ppm");
 

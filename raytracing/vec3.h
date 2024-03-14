@@ -62,6 +62,8 @@ class vec3 {
 
 		static vec3 random(double min, double max);
 
+		static vec3 random_in_unit_disk();
+
 		static bool same_dir(const vec3& a, const vec3& b);
 
 		static vec3 reflect(const vec3& v, const vec3& n);

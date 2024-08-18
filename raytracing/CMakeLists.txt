@@ -19,7 +19,7 @@ link_directories(${SDL2_LIBRARY})
 
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} "raytracing.cpp" "raytracing.h" "vec3.h" "vec3.cpp" "color.h" "ray.h" "ray.cpp" "SDLApp.h" "SDLApp.cpp" "shape.h" "sphere.h"  "hittable.h" "hittable_list.h" "rt_util.h" "interval.h" "camera.h" "image.h" "settings.h" "settings.cpp" "material.h")
+add_executable (${PROJECT_NAME} "raytracing.cpp" "headers/raytracing.h" "headers/vec3.h" "headers/vec3.cpp" "headers/color.h" "headers/ray.h" "headers/ray.cpp" "headers/SDLApp.h" "headers/SDLApp.cpp" "headers/shape.h" "headers/sphere.h"  "headers/hittable.h" "headers/hittable_list.h" "headers/rt_util.h" "headers/interval.h" "headers/camera.h" "headers/image.h" "headers/settings.h" "headers/settings.cpp" "headers/material.h" "headers/triangle.h" "headers/plane.h" "headers/sphere.cpp" "headers/camera.cpp")
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}/SDL2main.lib ${SDL2_LIBRARY}/SDL2.lib)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

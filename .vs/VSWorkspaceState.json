@@ -13,12 +13,13 @@
   },
   "ExpandedNodes": [
     "",
-    "\\external",
     "\\external\\SDL2",
     "\\external\\SDL2\\lib",
     "\\external\\SDL2\\lib\\x64",
     "\\external\\SDL2\\lib\\x86",
-    "\\raytracing"
+    "\\raytracing",
+    "\\raytracing\\headers"
   ],
+  "SelectedNode": "\\raytracing\\headers\\interval.h",
   "PreviewInSolutionExplorer": false
 }

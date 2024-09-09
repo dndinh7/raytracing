@@ -126,8 +126,9 @@ ray camera::get_sample_ray(const point3& pixel_center, const vec3& pixel_delta_u
 
 	point3 ray_origin = (this->defocus_angle <= 0) ? center : defocus_disk_sample();
 	vec3 ray_dir = pixel_sample - ray_origin;
+	double time = random_double();	
 
-	return ray(ray_origin, ray_dir);
+	return ray(ray_origin, ray_dir, time);
 }
 
 point3 camera::defocus_disk_sample() const {

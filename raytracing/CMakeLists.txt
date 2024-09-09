@@ -18,13 +18,36 @@ include_directories("${SDL2_PATH}/include")
 link_directories(${SDL2_LIBRARY})
 
 
+# Find CUDA package
+find_package(CUDA 12.6 REQUIRED)
+
+# Include CUDA headers
+include_directories(${CUDA_INCLUDE_DIRS})
+
+# Automatically include all header files
+file(GLOB_RECURSE HEADER_FILES "headers/*.h")
+file(GLOB_RECURSE SOURCE_FILES "headers/*.cpp")
+
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} "raytracing.cpp" "headers/raytracing.h" "headers/vec3.h" "headers/vec3.cpp" "headers/color.h" "headers/ray.h" "headers/ray.cpp" "headers/SDLApp.h" "headers/SDLApp.cpp" "headers/shape.h" "headers/sphere.h"  "headers/hittable.h" "headers/hittable_list.h" "headers/rt_util.h" "headers/interval.h" "headers/camera.h" "headers/image.h" "headers/settings.h" "headers/settings.cpp" "headers/material.h" "headers/triangle.h" "headers/plane.h" "headers/sphere.cpp" "headers/camera.cpp")
+add_executable(${PROJECT_NAME} 
+    "raytracing.cpp"
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
+    "cuda/tracer.cu"
+)
+
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}/SDL2main.lib ${SDL2_LIBRARY}/SDL2.lib)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET raytracing PROPERTY CXX_STANDARD 20)
-endif()
+# Set CUDA source properties
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    ${SDL2_LIBRARY}/SDL2main.lib 
+    ${SDL2_LIBRARY}/SDL2.lib
+    ${CUDA_LIBRARIES}
+)
 
 # Copy SDL2.dll to the output directory after building
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

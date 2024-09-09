@@ -59,8 +59,8 @@ void SDLApp::setupWorld() {
     world.add(make_shared<sphere>(point3(0, -100, 0), 100, ground_material));
 
     /*
-    for (int a = 9; a < 11; a++) {
-        for (int b = 9; b < 11; b++) {
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
             auto choose_mat = random_double();
             point3 center(a + 0.9 * random_double(), 0.2, b + 0.9 * random_double());
 
@@ -71,7 +71,8 @@ void SDLApp::setupWorld() {
                     // diffuse
                     auto albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian>(albedo);
-                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                    point3 center2= center + vec3(0, random_double(0, 0.5), 0);
+                    world.add(make_shared<sphere>(center, center2, 0.2, sphere_material));
                 }
                 else if (choose_mat < 0.95) {
                     // metal
@@ -152,7 +153,7 @@ void SDLApp::setup() {
     this->setupWorld();
 
     // this initializes camera and does an initial rendering of the scene
-    camera.render(image, world, point3(0, 3, 12), point3(0, 0, 0), 20, 0.6, 10);
+    camera.render(image, world, point3(13, 2, 3), point3(0, 0, 0), 20, 0.6, 10);
 
     this->saveToPPM("lol.ppm");
 

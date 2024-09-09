@@ -30,7 +30,7 @@ class lambertian : public material {
 				scatter_direction = rec.normal;
 			}
 
-			scattered = ray(rec.p, scatter_direction);
+			scattered = ray(rec.p, scatter_direction, r_in.time());
 
 			attenuation = albedo;
 			return true;
@@ -48,7 +48,7 @@ class metal : public material {
 			// metal will scatter the light by reflecting it over the normal
 			vec3 reflected = vec3::reflect(r_in.direction(), rec.normal);
 
-			scattered = ray(rec.p, reflected + fuzz * random_unit_vector());
+			scattered = ray(rec.p, reflected + fuzz * random_unit_vector(), r_in.time());
 
 			attenuation = albedo;
 			return vec3::dot(rec.normal, scattered.direction()) > 0;
@@ -88,7 +88,7 @@ class dielectric : public material {
 			}
 
 
-			scattered = ray(rec.p, dir);
+			scattered = ray(rec.p, dir, r_in.time());
 
 			return true;
 		}
